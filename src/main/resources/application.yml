@@ -1,0 +1,53 @@
+#端口
+server:
+  port: 9999
+#配置数据源
+spring:
+  #数据源
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/shirotest?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+      username: root
+      password: admin
+      max-active: 20  #最大空闲数
+      max-wait: 5000 #最大等待毫秒数
+      initial-size: 1 #定义初始连接数
+      #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,log4j,wall
+      validation-query: SELECT 'x' #验证连接
+      enable: true
+      #监控配置
+      stat-view-servlet:
+        enabled: true
+        login-username: root
+        login-password: admin
+        allow:
+        deny:
+        url-pattern: /druid/*
+      #thymeleaf的配置
+  thymeleaf:
+    cache: false
+    enabled: true
+    characterEncoding: UTF-8
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+
+#配置shiro
+shiro:
+  hash-algorithm-name: md5
+  hash-iterations: 2
+  anon-urls:
+  - /index.html*
+  - /404.html*
+  - /sys/toLogin*
+  - /login/login*
+  - /login/**
+  - /resources/**
+  login-url: /index.html
+  log-out-url: /index.html
+  authc-urls:
+  - /**
+  
